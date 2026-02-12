@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¿Serías mi San Valentín?</title>
 
-  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -21,7 +20,7 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       padding: 30px;
       border-radius: 22px;
       text-align: center;
@@ -76,8 +75,8 @@
 
     .gif {
       width: min(380px, 90vw);
-      margin: 0 auto;
       display: block;
+      margin: 0 auto;
     }
 
     @keyframes pop {
@@ -89,9 +88,9 @@
 
 <body>
 
-  <!-- 🎵 AUDIO (GitHub Pages compatible) -->
+  <!-- 🎵 AUDIO LOCAL (GitHub Pages) -->
   <audio id="music" preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_4c8c91e6b7.mp3" type="audio/mpeg">
+    <source src="music/Bryant_Myers_-_En_Que_Pais.mp3" type="audio/mpeg">
   </audio>
 
   <div class="card">
@@ -140,11 +139,8 @@
       let newLeft = (b.left - z.left) + dx * 140;
       let newTop  = (b.top - z.top) + dy * 140;
 
-      newLeft = Math.max(0, Math.min(z.width - b.width, newLeft));
-      newTop  = Math.max(0, Math.min(z.height - b.height, newTop));
-
-      no.style.left = newLeft + "px";
-      no.style.top  = newTop + "px";
+      no.style.left = Math.max(0, Math.min(z.width - b.width, newLeft)) + "px";
+      no.style.top  = Math.max(0, Math.min(z.height - b.height, newTop)) + "px";
 
       yesScale = Math.min(2.2, yesScale + 0.1);
       yes.style.transform = `translateY(-50%) scale(${yesScale})`;
@@ -164,7 +160,9 @@
       hint.style.display = "none";
       result.style.display = "block";
 
-      music.volume = 0.6;
+      // ▶️ EMPIEZA EN EL SEGUNDO 15
+      music.currentTime = 15;
+      music.volume = 0.65;
       music.play();
 
       confetti({
