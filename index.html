@@ -48,6 +48,7 @@
       border-radius: 999px;
       border: none;
       cursor: pointer;
+      transition: transform 0.2s ease;
     }
 
     #yes {
@@ -88,9 +89,9 @@
 
 <body>
 
-  <!-- 🎵 AUDIO LOCAL (GitHub Pages) -->
-  <audio id="music" preload="auto">
-    <source src="music/Bryant_Myers_-_En_Que_Pais.mp3" type="audio/mpeg">
+  <!-- 🎵 AUDIO LOCAL -->
+  <audio id="music" preload="auto"
+    src="Bryant_Myers_-_En_Que_Pais_(Video_Lyric)_128k.mp3">
   </audio>
 
   <div class="card">
@@ -155,15 +156,26 @@
       if (d < 140) moveNo(e.clientX, e.clientY);
     });
 
-    yes.addEventListener("click", () => {
+    yes.addEventListener("click", async () => {
       zone.style.display = "none";
       hint.style.display = "none";
       result.style.display = "block";
 
-      // ▶️ EMPIEZA EN EL SEGUNDO 15
-      music.currentTime = 15;
-      music.volume = 0.65;
-      music.play();
+      try {
+        // Espera a que cargue metadata si es necesario
+        if (music.readyState < 1) {
+          await new Promise(resolve => {
+            music.addEventListener("loadedmetadata", resolve, { once: true });
+          });
+        }
+
+        music.currentTime = 15;   // ▶️ Empieza en segundo 15
+        music.volume = 0.65;
+        await music.play();
+
+      } catch (err) {
+        console.log("Error al reproducir:", err);
+      }
 
       confetti({
         particleCount: 200,
